@@ -5,33 +5,35 @@ from random import randrange
 pygame.init()
 pygame.mixer.init()
 
+#Ouverture de la fenêtre Pygame
+fenetre = pygame.display.set_mode((640, 512))
+
 class Textures:
-    def __init__(self):
-        ### Textures de sol ###
-        self.plante = pygame.image.load("Textures/texture_cannabis.png").convert_alpha()
-        self.sol_cristal = pygame.image.load("Textures/texture_cristaux_brises.png").convert_alpha()
-        self.mur_cristal = pygame.image.load("Textures/texture_cristaux_pointus.png").convert_alpha()
-        self.caillou_sol = pygame.image.load("Textures/texture_galet.png").convert_alpha()
-        self.glace1 = pygame.image.load("Textures/texture_glace.png").convert_alpha()
-        self.glace2 = pygame.image.load("Textures/texture_glace_moche.png").convert_alpha()
-        self.glace_mur = pygame.image.load("Textures/texture_glace_pointue.png").convert_alpha()
-        self.pave = pygame.image.load("Textures/texture_pierre_pavee.png").convert_alpha()
-        self.mur = pygame.image.load("Textures/texture_pierre_taillee.png").convert_alpha()
-        self.volcan = pygame.image.load("Textures/texture_pierre_volcanique.png").convert_alpha()
-        self.pave = pygame.image.load("Textures/texture_pierre_pavee.png").convert_alpha()
-        self.caillou_mur = pygame.image.load("Textures/texture_rochers_pointus.png").convert_alpha()
-        self.terre = pygame.image.load("Textures/texture_terre.png").convert_alpha()
+    ### Textures de sol ###
+    plante = pygame.image.load("Textures/texture_cannabis.png").convert_alpha()
+    sol_cristal = pygame.image.load("Textures/texture_cristaux_brises.png").convert_alpha()
+    mur_cristal = pygame.image.load("Textures/texture_cristaux_pointus.png").convert_alpha()
+    caillou_sol = pygame.image.load("Textures/texture_galet.png").convert_alpha()
+    glace1 = pygame.image.load("Textures/texture_glace.png").convert_alpha()
+    glace2 = pygame.image.load("Textures/texture_glace_moche.png").convert_alpha()
+    glace_mur = pygame.image.load("Textures/texture_glace_pointue.png").convert_alpha()
+    pave = pygame.image.load("Textures/texture_pierre_pavee.png").convert_alpha()
+    mur = pygame.image.load("Textures/texture_pierre_taillee.png").convert_alpha()
+    volcan = pygame.image.load("Textures/texture_pierre_volcanique.png").convert_alpha()
+    pave = pygame.image.load("Textures/texture_pierre_pavee.png").convert_alpha()
+    caillou_mur = pygame.image.load("Textures/texture_rochers_pointus.png").convert_alpha()
+    terre = pygame.image.load("Textures/texture_terre.png").convert_alpha()
 
-        ### Potions ###
-        self.potion_vie = pygame.image.load("Texture/potionvie.png").convert_alpha()
-        self.potion_mana = pygame.image.load("Texture/potionmana.png").convert_alpha()
-        self.elixir = pygame.image.load("Texture/potionelixir.png").convert_alpha()
+    ### Potions ###
+    potion_vie = pygame.image.load("Textures/potionvie.png").convert_alpha()
+    potion_mana = pygame.image.load("Textures/potionmana.png").convert_alpha()
+    elixir = pygame.image.load("Textures/potionelixir.png").convert_alpha()
 
-        ### Autre ###
-        self.fireball = pygame.image.load("Textures/fireball.png").convert_alpha()
-        self.apparition_coming = pygame.image.load("Textures/texture_hd_apparition.png").convert_alpha()
-        self.faucheur_coming = pygame.image.load("Textures/texture_hd_faucheur.png").convert_alpha()
-        self.fond = pygame.image.load("Textures/background.jpg").convert()
+    ### Autre ###
+    fireball = pygame.image.load("Textures/fireball.png").convert_alpha()
+    apparition_coming = pygame.image.load("Textures/texture_hd_apparition.png").convert_alpha()
+    faucheur_coming = pygame.image.load("Textures/texture_hd_spectre.png").convert_alpha()
+    fond = pygame.image.load("Textures/background.jpg").convert()
 
 
 
@@ -117,8 +119,8 @@ class Son: #Classe stockant les sons et musiques
     def JouerBoom(self): #Joue le son d'explosion du sort
         self.son_boom.play()
 
-    def JouerVictoire(self, son=None): #Joue un son de victoire de combat
-        son == randrange(1,6)
+    def JouerVictoire(self, son): #Joue un son de victoire de combat
+        son = randrange(1,7)
         if son == 1:
             self.son_victory1.play()
         if son == 2:
@@ -141,27 +143,21 @@ class Son: #Classe stockant les sons et musiques
 
 
 class Hero: #Classe du personnage jouable
-    def __init__(self, nom): #constructeur
-        self.nom = nom #Nom du hero
-        self.vie = 42  #Points de vie, le joueur perd si ils arrivent a 0
-        self.mana = 59 #Mana permettant de lancer des sorts
+    nom = "Jean-Jacques" #Nom du hero
+    vie = 42  #Points de vie, le joueur perd si ils arrivent a 0
+    mana = 59 #Mana permettant de lancer des sorts
 
-        self.potion_vie = 0 #Potion de mana regenerant la vie
-        self.potion_mana = 0 #Potion de vie regenerant la mana
-        self.elixir = 0 #Elixir régénérant la vie et la mana
-
-        self.texture_droite = pygame.image.load("Texture/persolife_d.png").convert_alpha()
-        self.texture_droite_attaque = pygame.image.load("Texture/persolife_d_atk.png").convert_alpha()
-        self.texture_droite_attaque2 = pygame.image.load("Texture/persolife_d_atk2.png").convert_alpha()
-        self.texture_droite_mouvement = pygame.image.load("Texture/persolife_d_moving.png").convert_alpha()
-        self.texture_gauche = pygame.image.load("Texture/persolife_g.png").convert_alpha()
-        self.texture_gauche_attaque = pygame.image.load("Texture/persolife_g_atk.png").convert_alpha()
-        self.texture_gauche_attaque2 = pygame.image.load("Texture/persolife_g_atk2.png").convert_alpha()
-        self.texture_gauche_mouvement = pygame.image.load("Texture/persolife_g_moving.png").convert_alpha()
+    texture_droite = pygame.image.load("Textures/persolife_d.png").convert_alpha()
+    texture_droite_attaque = pygame.image.load("Textures/persolife_d_atk.png").convert_alpha()
+    texture_droite_attaque2 = pygame.image.load("Textures/persolife_d_atk2.png").convert_alpha()
+    texture_droite_mouvement = pygame.image.load("Textures/persolife_d_moving.png").convert_alpha()
+    texture_gauche = pygame.image.load("Textures/persolife_g.png").convert_alpha()
+    texture_gauche_attaque = pygame.image.load("Textures/persolife_g_atk.png").convert_alpha()
+    texture_gauche_attaque2 = pygame.image.load("Textures/persolife_g_atk2.png").convert_alpha()
+    texture_gauche_mouvement = pygame.image.load("Textures/persolife_g_moving.png").convert_alpha()
 
     def BoirePotionVie(self, son):
         if self.potion_vie > 0:
-            self.potion_vie -= 1
             if self.vie <= 22:
                 self.vie += 20
             else:
@@ -172,7 +168,6 @@ class Hero: #Classe du personnage jouable
 
     def BoirePotionMana(self, son):
         if self.potion_mana > 0:
-            self.potion_mana -= 1
             if self.mana <= 39:
                 self.mana += 20
             else:
@@ -182,7 +177,6 @@ class Hero: #Classe du personnage jouable
 
     def BoireElixir(self, son):
         if self.elixir > 0:
-            self.elixir -= 1
             if self.vie <= 22 and self.mana <= 39:
                 self.vie += 20
                 self.mana += 20
@@ -237,12 +231,12 @@ class Poulpe:
         self.nom = "Poulpe"
         self.vie = 30
 
-        self.texture_droite = pygame.image.load("Texture/cuttlefish_d.png").convert_alpha()
-        self.texture_droite_attaque1 = pygame.image.load("Texture/cuttlefish_d_atk1.png").convert_alpha()
-        self.texture_droite_attaque2 = pygame.image.load("Texture/cuttlefish_d_atk2.png").convert_alpha()
-        self.texture_gauche = pygame.image.load("Texture/cuttlefish_g.png").convert_alpha()
-        self.texture_gauche_attaque1 = pygame.image.load("Texture/cuttlefish_g_atk1.png").convert_alpha()
-        self.texture_gauche_attaque2 = pygame.image.load("Texture/cuttlefish_g_atk2.png").convert_alpha()
+        self.texture_droite = pygame.image.load("Textures/cuttlefish_d.png").convert_alpha()
+        self.texture_droite_attaque1 = pygame.image.load("Textures/cuttlefish_d_atk1.png").convert_alpha()
+        self.texture_droite_attaque2 = pygame.image.load("Textures/cuttlefish_d_atk2.png").convert_alpha()
+        self.texture_gauche = pygame.image.load("Textures/cuttlefish_g.png").convert_alpha()
+        self.texture_gauche_attaque1 = pygame.image.load("Textures/cuttlefish_g_atk1.png").convert_alpha()
+        self.texture_gauche_attaque2 = pygame.image.load("Textures/cuttlefish_g_atk2.png").convert_alpha()
 
     def AttaquePrincipale(self,hero,proba=None):
         proba = randrange(1,16)
@@ -270,11 +264,11 @@ class Poulpe:
 
 
 class Drake:
-    def __init__(self):
-        self.nom = "Drake"
-        self.vie = 50
 
-        self.texture = pygame.image.load("Texture/drake.png").convert_alpha()
+    nom = "Drake"
+    vie = 50
+
+    texture = pygame.image.load("Textures/drake.png").convert_alpha()
 
     def Attaque(self):
         return 0
@@ -295,10 +289,10 @@ class Loup:
         self.nom = "Jeune Loup"
         self.vie = 30
 
-        self.texture_droite = pygame.image.load("Texture/texture_jeune_loup_d.png").convert_alpha()
-        self.texture_droite_attaque = pygame.image.load("Texture/texture_jeune_loup_d_atk.png").convert_alpha()
-        self.texture_gauche = pygame.image.load("Texture/texture_jeune_loup_g.png").convert_alpha()
-        self.texture_gauche_attaque = pygame.image.load("Texture/texture_jeune_loup_g_atk.png").convert_alpha()
+        self.texture_droite = pygame.image.load("Textures/texture_jeune_loup_d.png").convert_alpha()
+        self.texture_droite_attaque = pygame.image.load("Textures/texture_jeune_loup_d_atk.png").convert_alpha()
+        self.texture_gauche = pygame.image.load("Textures/texture_jeune_loup_g.png").convert_alpha()
+        self.texture_gauche_attaque = pygame.image.load("Textures/texture_jeune_loup_g_atk.png").convert_alpha()
 
     def Attaque(self,hero,proba=None):
         proba = randrange(1,16)
@@ -320,9 +314,9 @@ class Loup:
 
 class Nain:
     def __init__(self):
-        self.texture_droite = pygame.image.load("Texture/nain_d.png").convert_alpha()
-        self.texture_droite_coupe = pygame.image.load("Texture/nain_d_cutting.png").convert_alpha()
-        self.texture_gauche = pygame.image.load("Texture/nain_g.png").convert_alpha()
+        self.texture_droite = pygame.image.load("Textures/nain_d.png").convert_alpha()
+        self.texture_droite_coupe = pygame.image.load("Textures/nain_d_cutting.png").convert_alpha()
+        self.texture_gauche = pygame.image.load("Textures/nain_g.png").convert_alpha()
 
 
 
@@ -331,10 +325,10 @@ class Tentacule:
         self.nom = "Tentacule des profondeurs abyssales du dragon"
         self.vie = 50
 
-        self.texture_droite = pygame.image.load("Texture/deep_tentacule_d.png").convert_alpha()
-        self.texture_droite_attaque = pygame.image.load("Texture/deep_tentacule_d_atk.png").convert_alpha()
-        self.texture_gauche = pygame.image.load("Texture/deep_tentacule_g.png").convert_alpha()
-        self.texture_gauche_attaque = pygame.image.load("Texture/deep_tentacule_g_atk.png").convert_alpha()
+        self.texture_droite = pygame.image.load("Textures/deep_tentacule_d.png").convert_alpha()
+        self.texture_droite_attaque = pygame.image.load("Textures/deep_tentacule_d_atk.png").convert_alpha()
+        self.texture_gauche = pygame.image.load("Textures/deep_tentacule_g.png").convert_alpha()
+        self.texture_gauche_attaque = pygame.image.load("Textures/deep_tentacule_g_atk.png").convert_alpha()
 
     def Attaque(self,hero,proba=None):
         proba = randrange(1,16)
@@ -357,12 +351,12 @@ class Liche:
         self.nom = "Liche"
         self.vie = 100
 
-        self.texture_droite = pygame.image.load("Texture/lich_d.png").convert_alpha()
-        self.texture_droite_attaque1 = pygame.image.load("Texture/lich_d_atk1.png").convert_alpha()
-        self.texture_droite_attaque2 = pygame.image.load("Texture/lich_d_atk2.png").convert_alpha()
-        self.texture_gauche = pygame.image.load("Texture/lich_g.png").convert_alpha()
-        self.texture_gauche_attaque1 = pygame.image.load("Texture/lich_g_atk1.png").convert_alpha()
-        self.texture_gauche_attaque2 = pygame.image.load("Texture/lich_g_atk2.png").convert_alpha()
+        self.texture_droite = pygame.image.load("Textures/lich_d.png").convert_alpha()
+        self.texture_droite_attaque1 = pygame.image.load("Textures/lich_d_atk1.png").convert_alpha()
+        self.texture_droite_attaque2 = pygame.image.load("Textures/lich_d_atk2.png").convert_alpha()
+        self.texture_gauche = pygame.image.load("Textures/lich_g.png").convert_alpha()
+        self.texture_gauche_attaque1 = pygame.image.load("Textures/lich_g_atk1.png").convert_alpha()
+        self.texture_gauche_attaque2 = pygame.image.load("Textures/lich_g_atk2.png").convert_alpha()
 
     def Attaque(self,hero,proba=None):
         proba = randrange(1,16)
@@ -385,10 +379,10 @@ class LoupAlpha:
         self.nom = "Loup Alpha"
         self.vie = 40
 
-        self.texture_droite = pygame.image.load("Texture/texture_loup_alpha_d.png").convert_alpha()
-        self.texture_droite_attaque = pygame.image.load("Texture/texture_loup_alpha_d_atk.png").convert_alpha()
-        self.texture_gauche = pygame.image.load("Texture/texture_loup_alpha_g.png").convert_alpha()
-        self.texture_gauche_attaque = pygame.image.load("Texture/texture_loup_alpha_d_atk.png").convert_alpha()
+        self.texture_droite = pygame.image.load("Textures/texture_loup_alpha_d.png").convert_alpha()
+        self.texture_droite_attaque = pygame.image.load("Textures/texture_loup_alpha_d_atk.png").convert_alpha()
+        self.texture_gauche = pygame.image.load("Textures/texture_loup_alpha_g.png").convert_alpha()
+        self.texture_gauche_attaque = pygame.image.load("Textures/texture_loup_alpha_d_atk.png").convert_alpha()
 
     def Attaque(self,hero,proba=None):
         proba = randrange(1,16)
